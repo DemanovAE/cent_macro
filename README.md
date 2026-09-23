@@ -34,7 +34,10 @@ root -l -q -b test_cent_bmndst.C(
 
 На выходе - файл вида: "cent_" + Имя_DST_файлам. Пример имени выходного файла для DST-файла `mpd_run_Top_8130_ev0_p16.root`: `cent_mpd_run_Top_8130_ev0_p16.root`
 
-### файл `cent_mpd_run_Top_8130_ev0_p16.root` содержит дерево `bmndata` с ветками
+```cpp
+
+
+Файл `cent_mpd_run_Top_8130_ev0_p16.root` содержит дерево `bmndata` с ветками
 
 | Ветка | Тип | Описание |
 |---|---|---|
@@ -64,7 +67,6 @@ root -l -q -b test_cent_bmndst.C(
 
 Подключите полученный файл как friend к исходному DST:
 
-```cpp
 TChain *chain = new TChain("bmndata");
 chain->Add("mpd_run_Top_8130_ev0_p16.root");
 
