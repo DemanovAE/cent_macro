@@ -23,6 +23,8 @@
 
 ## Запуск
 
+## Запуск
+
 ```cpp
 // в ROOT
 root -l -q -b test_cent_bmndst.C(
@@ -31,13 +33,11 @@ root -l -q -b test_cent_bmndst.C(
     "./run8_25.09_corr_VtxXYZ.root",            // калибровки вершины
     "./run8_25.09_corrections_DifRefRunId.root" // поправки RefMult
 )
+```
 
-На выходе - файл вида: "cent_" + Имя_DST_файлам. Пример имени выходного файла для DST-файла `mpd_run_Top_8130_ev0_p16.root`: `cent_mpd_run_Top_8130_ev0_p16.root`
+На выходе - файл вида: `"cent_" + Имя_DST_файла`. Пример имени выходного файла для DST-файла `mpd_run_Top_8130_ev0_p16.root`: `cent_mpd_run_Top_8130_ev0_p16.root`
 
-```cpp
-
-
-Файл `cent_mpd_run_Top_8130_ev0_p16.root` содержит дерево `bmndata` с ветками
+Файл `cent_mpd_run_Top_8130_ev0_p16.root` содержит дерево `bmndata` с ветками:
 
 | Ветка | Тип | Описание |
 |---|---|---|
@@ -63,10 +63,11 @@ root -l -q -b test_cent_bmndst.C(
 | `5` | 50–60% |
 | `-1` | >60%, или событие не прошло отбор |
 
-## Как использовать:
+## Как использовать
 
 Подключите полученный файл как friend к исходному DST:
 
+```cpp
 TChain *chain = new TChain("bmndata");
 chain->Add("mpd_run_Top_8130_ev0_p16.root");
 
@@ -74,8 +75,11 @@ TChain *chainCent = new TChain("bmndata");
 chainCent->Add("cent_mpd_run_Top_8130_ev0_p16.root");
 
 chain->AddFriend(chainCent);
+```
 
-Пример использования с ROOT::RDataFrame (см. функцию `UsageExample()`)
+Пример использования с `ROOT::RDataFrame` (см. функцию `UsageExample()`):
 
+```cpp
 ROOT::RDataFrame dd(*chain);
 auto h = dd.Filter("passSel==1").Histo1D({"h", ";cent", 6, -0.5, 5.5}, "centrality_Bin");
+```
