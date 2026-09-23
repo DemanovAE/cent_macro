@@ -2,6 +2,8 @@
 
 Скрипт вычисляет центральность событий по DST-файлам BMN, применяет поправки на вершину и RefMult, отбор физических ранов, pile-up и триггер, и сохраняет результат в отдельный ROOT-файл. Полученный файл можно подключать как "friend chain" в своих анализах.
 
+Главный скрипт `test_cent_bmndst.C`
+
 ## Что делает
 
 Для каждого события вычисляет:
@@ -71,7 +73,7 @@ chainCent->Add("cent_mpd_run_Top_8130_ev0_p16.root");
 
 chain->AddFriend(chainCent);
 
-Пример использования с ROOT::RDataFrame
+Пример использования с ROOT::RDataFrame (см. функцию `UsageExample()`)
 
 ROOT::RDataFrame dd(*chain);
 auto h = dd.Filter("passSel==1").Histo1D({"h", ";cent", 6, -0.5, 5.5}, "centrality_Bin");
