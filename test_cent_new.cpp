@@ -93,43 +93,41 @@ void test_cent_new(std::string str_in_list, std::string out_file_name="qa.root",
 		};
 	  };
 
-	  auto centrality_function = [](int NumVecMult) {
+	auto centrality_function = [](int NumVecMult) {
 		return [NumVecMult](Double_t _refMult) -> int {
-			// Границы для binMult = _refMult + 1 
 			
-			bool OutCentBin=false; 
+			bool OutCentBin=true;
 			// если true вывод в формате 0 [0-10%], 1 [10-20%], 3 [20-30%]
 			// если false вывод в формате центра бина 5 [0-10%], 15 [10-20%], 25 [20-30%],...
 
-			std::vector<float> multiplicity_edges;			
-			std::vector<float> centrality_percentage{ 0, 10, 20, 30, 40, 50, 60, 70, 100};
-			
-			if (NumVecMult == 1) multiplicity_edges = { 115, 57, 41, 29, 20, 13, 8, 4, 0}; // 8185-8195
-			//if (NumVecMult == 2) multiplicity_edges = { 109, 51, 37, 26, 18, 12, 7, 4, 0}; // 7643-7648
-			//if (NumVecMult == 3) multiplicity_edges = {  95, 46, 33, 24, 17, 11, 7, 4, 0}; // 7386-7400
+			std::vector<float> multiplicity_bin_edges;      
+			std::vector<float> centrality_percentage{ 0, 10, 20, 30, 40, 50, 60, 70};
+			if (NumVecMult == 10) multiplicity_bin_edges = { 150, 56, 40, 28, 19, 13, 8, 5, 0}; // MC-Glauber
+			if (NumVecMult == 20) multiplicity_bin_edges = { 150, 56, 40, 28, 19, 12, 8, 5, 0}; // Gamma-fit
 
-			if (multiplicity_edges.empty()) return -1;
+			if (multiplicity_bin_edges.empty()) return -1;
 			
-			if (_refMult < 0 || _refMult >= multiplicity_edges[0]) return -1;
+			if (_refMult < 0 || _refMult >= multiplicity_bin_edges[0]) return -1;
 			
 			int idx = 0;
-			float bin_edge = multiplicity_edges[idx];
-			while (_refMult < bin_edge && idx < (int)multiplicity_edges.size() - 1) {
-				idx++;
-				bin_edge = multiplicity_edges[idx];
+			float bin_edge = multiplicity_bin_edges[idx];
+			while (_refMult < bin_edge && idx < (int)multiplicity_bin_edges.size() - 1) {
+			idx++;
+			bin_edge = multiplicity_bin_edges[idx];
 			}
 
-			if(idx-1>=6) return -1; // cent > 60% нету
+			if(idx-1>=7) return -1.; // cent > 70% нету
 			
 			if(OutCentBin){
-				return (idx - 1);
+			return (idx - 1);
 			}else{
-				return (centrality_percentage[idx-1] + centrality_percentage[idx])/2;
+			return (centrality_percentage[idx-1] + centrality_percentage[idx])/2;
 			}
 
-			return -1;
+			return -1.;
 		};
 	};
+	
 
 	auto PhisRunCut = [&physical_runs]( UInt_t run_id ){return std::find( physical_runs.begin(), physical_runs.end(), run_id) != physical_runs.end();};
 
