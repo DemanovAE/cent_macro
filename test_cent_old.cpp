@@ -32,7 +32,7 @@ bool IsGoodFile(const char* filename) {
 }
 
 
-void test_cent_new(std::string str_in_list, std::string out_file_name="qa.root", std::string in_file_vtx="./run8_25.09_corr_VtxXYZ.root", std::string in_file_RefMultCorr="./run8_25.09_corrections_DifRefRunId.root"){	
+void test_cent_old(std::string str_in_list, std::string out_file_name="qa.root", std::string in_file_vtx="./run8_25.09_corr_VtxXYZ.root", std::string in_file_RefMultCorr="./run8_25.09_corrections_DifRefRunId.root"){	
 
 	//CorrRunId.root
 
